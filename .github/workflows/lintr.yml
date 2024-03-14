@@ -41,7 +41,7 @@ jobs:
 
       - name: Import .lintr
         run: |
-          wget https://raw.githubusercontent.com/Boehringer-Ingelheim/dv.templates/main/.lintr
+          wget -O .lintr https://raw.githubusercontent.com/Boehringer-Ingelheim/dv.templates/main/.lintr
 
       - name: Lintr 🔍
         run: lintr::lint_package()
