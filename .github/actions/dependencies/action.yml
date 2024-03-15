@@ -1,26 +1,12 @@
 ---
 name: Dependencies 
 
-inputs:
-    dep_path:
-        description: Path of the dependency file.
-        required: false
-        type: string
-        default: "dependencies.yml"
- 
 runs:
   using: 'composite'
   steps: 
     - name: Install package dependencies 📄
       run: |
-          if (file.exists("${{ inputs.dep_path }}")) {
-              repos <- yaml::yaml.load(readLines("${{ inputs.dep_path }}"))$dependencies |>
-              sapply(function(x) x$repo) 
-              if(repos |> length() > 0) {
-                repos |>
-                pak::pak(dependencies = TRUE, ask = FALSE, upgrade = FALSE)
-              }
-          }
+        pak::local_install_deps(".", upgrade=FALSE, ask=FALSE)
       shell: Rscript {0}
 
 
