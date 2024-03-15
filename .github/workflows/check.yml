@@ -36,14 +36,7 @@ jobs:
       - name: Check 📦
         run: |
           options(crayon.enabled = TRUE)
-          devtools::check(error_on="error", args=c("--no-tests"))
+          rcmdcheck::rcmdcheck(".", error_on = "error")
         shell: Rscript {0}
 
-      - name: Test 🧪
-        if: >
-          ${{ !contains(github.event.commits[0].message, '[skip tests]') && github.event.pull_request.draft == false }}
-        run: |
-          options(crayon.enabled = TRUE)
-          devtools::test(stop_on_failure = TRUE)
-        shell: Rscript {0}
 
