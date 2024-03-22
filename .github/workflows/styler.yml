@@ -1,5 +1,5 @@
 ---
-name: Styler 📄
+name: Styler 🦄
 
 on:
   pull_request:
@@ -35,10 +35,7 @@ jobs:
 
       - name: Run styler 🦄
         run: |
-            styler::style_pkg(dry="off")
+            changes <- styler::style_pkg(dry="on")
+            sum(changes[["changed"]])
         shell: Rscript {0}
 
-      - name: Report changes 🤲
-        run: |
-            git diff
-        shell: bash

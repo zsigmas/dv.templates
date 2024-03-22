@@ -23,7 +23,7 @@ hello <- function(name = "your name") {
 #' @export
 #'
 run_app <- function() {
-  ui <- shiny::fluidPage(
+    ui <- shiny::fluidPage(
     shiny::textInput("name", "What is your name?"),
     shiny::actionButton("greet", "Greet"),
     shiny::textOutput("greeting")
