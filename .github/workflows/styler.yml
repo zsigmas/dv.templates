@@ -35,7 +35,11 @@ jobs:
 
       - name: Run styler 🦄
         run: |
-            changes <- styler::style_pkg(dry="on")
-            sum(changes[["changed"]])
+            changes <- styler::style_pkg(dry = "on")
+            if (sum(changes[["changed"]]) > 0) {
+              stop(
+                "Styler has detected styling issues. Please run styler::style_pkg() and re-commit your changes."
+              )
+            }
         shell: Rscript {0}
 
