@@ -36,9 +36,6 @@ jobs:
       - name: Checkout project ⬇️
         uses: actions/checkout@v4
 
-      - name: Install package dependencies 📄
-        uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main        
-
       - name: Import .lintr
         run: |
           wget -O .lintr https://raw.githubusercontent.com/Boehringer-Ingelheim/dv.templates/main/.lintr

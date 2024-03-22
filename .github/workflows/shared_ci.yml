@@ -30,3 +30,7 @@ jobs:
   links:
     name: Check URLs 🌐
     uses: boehringer-ingelheim/dv.templates/.github/workflows/links.yml@main
+
+  styler:
+    name: Styler 🌐
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/styler.yml@main
