@@ -33,7 +33,7 @@ jobs:
       - name: Check 📦
         run: |
           options(crayon.enabled = TRUE)
-          rcmdcheck::rcmdcheck(error_on = "error")
+          rcmdcheck::rcmdcheck(".", error_on = "error")
         shell: Rscript {0}
 
 
