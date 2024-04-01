@@ -44,7 +44,9 @@ jobs:
           wget -O .lintr https://raw.githubusercontent.com/Boehringer-Ingelheim/dv.templates/main/.lintr
 
       - name: Lintr 🔍
-        run: lintr::lint_package()
+        run: |
+          devtools::load_all()
+          lintr::lint_package()          
         shell: Rscript {0}
         env:
           LINTR_ERROR_ON_LINT: ${{ inputs.lintr_error_on_lint }}
