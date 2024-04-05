@@ -21,10 +21,6 @@ Generates a [`pkgdown`](https://pkgdown.r-lib.org/) website and uploads it to Gi
 Uses [`roxygen`](https://roxygen2.r-lib.org/) to generate `.Rd` files in the
 `man/` directory. It also checks if manuals are up-to-date with roxygen comments in the code.
 
-### [`links.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/links.yml)
-
-Checks for broken links inside the repository.
-
 ### [`shared_ci.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/shared_ci.yml)
 
 Builds a reusable workflow to be called from other repositories.
@@ -72,7 +68,4 @@ jobs:
     name: Pkgdown 📖
     uses: boehringer-ingelheim/dv.templates/.github/workflows/pkgdown.yml@main
 
-  links:
-    name: Check URLs 🌐
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/links.yml@main
 ```

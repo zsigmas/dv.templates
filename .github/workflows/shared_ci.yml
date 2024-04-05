@@ -27,10 +27,6 @@ jobs:
     name: Pkgdown 📖
     uses: boehringer-ingelheim/dv.templates/.github/workflows/pkgdown.yml@main
 
-  links:
-    name: Check URLs 🌐
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/links.yml@main
-
   styler:
     name: Styler 🌐
     uses: boehringer-ingelheim/dv.templates/.github/workflows/styler.yml@main
