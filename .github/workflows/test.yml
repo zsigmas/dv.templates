@@ -35,7 +35,7 @@ jobs:
       - name: Checkout Repo Templates      
         uses: actions/checkout@v4
         with:
-          ref: include_qc_separate_steps
+          ref: main
           repository: boehringer-ingelheim/dv.templates
           path: templates
 
