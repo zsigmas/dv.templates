@@ -16,27 +16,29 @@ on:
   workflow_call:
 
 concurrency:
-  group: check-test-${{ github.event.pull_request.number || github.ref }}
+  group: check-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  check-test:
+  check:
     name: ${{ vars.CI_IMAGE }}
     runs-on: ubuntu-latest
     container:
       image: ${{ vars.CI_IMAGE }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout project ⬇️
         uses: actions/checkout@v4
 
       - name: Install package dependencies 📄
-        uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
+        uses: zsigmas/dv.templates/.github/actions/dependencies@include_qc_separate_steps     
 
       - name: Check 📦
         run: |
           options(crayon.enabled = TRUE)
-          rcmdcheck::rcmdcheck(error_on = "error")
+          rcmdcheck::rcmdcheck(error_on = "error", args = "--no-tests")
         shell: Rscript {0}
 
 

@@ -25,13 +25,21 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ vars.CI_IMAGE }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout project ⬇️
         uses: actions/checkout@v4
 
       - name: Install package dependencies 📄
-        uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main           
+        uses: zsigmas/dv.templates/.github/actions/dependencies@include_qc_separate_steps        
+        
+      - name: Get validation results
+        uses: actions/download-artifact@v4
+        with:
+          name: val_results
+          path: inst/validation/results
 
       - name: Build site 🔧
         run: pkgdown::build_site()
