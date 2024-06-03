@@ -30,3 +30,7 @@ jobs:
   styler:
     name: Styler 🌐
     uses: boehringer-ingelheim/dv.templates/.github/workflows/styler.yml@main
+
+  release:
+    name: Release 📈
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/release.yml@main
