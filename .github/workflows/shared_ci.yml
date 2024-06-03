@@ -7,31 +7,31 @@ on:
 jobs:
   check:
     name: Check 📦
-    uses: zsigmas/dv.templates/.github/workflows/check.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/check.yml@main
 
   test:
     name: Test 📦
-    uses: zsigmas/dv.templates/.github/workflows/test.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/test.yml@main
 
   lintr:
     name: Lintr 🔍
-    uses: zsigmas/dv.templates/.github/workflows/lintr.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/lintr.yml@main
     with:
       lintr_error_on_lint: true
 
   gitleaks:
     name: Gitleaks 🌧️
-    uses: zsigmas/dv.templates/.github/workflows/gitleaks.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/gitleaks.yml@main
 
   roxygen:
     name: Roxygen 📄
-    uses: zsigmas/dv.templates/.github/workflows/roxygen.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/roxygen.yml@main
 
   pkgdown:
     name: Pkgdown 📖
-    uses: zsigmas/dv.templates/.github/workflows/pkgdown.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/pkgdown.yml@main
     needs: test
 
   styler:
     name: Styler 🌐
-    uses: zsigmas/dv.templates/.github/workflows/styler.yml@include_qc_separate_steps
+    uses: boehringer-ingelheim/dv.templates/.github/workflows/styler.yml@main

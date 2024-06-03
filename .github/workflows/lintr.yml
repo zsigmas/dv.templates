@@ -39,11 +39,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install package dependencies 📄
-        uses: zsigmas/dv.templates/.github/actions/dependencies@include_qc_separate_steps     
+        uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
 
       - name: Import .lintr
         run: |
-          wget -O .lintr https://raw.githubusercontent.com/zsigmas/dv.templates/main/.lintr
+          wget -O .lintr https://raw.githubusercontent.com/boehringer-ingelheim/dv.templates/main/.lintr
 
       - name: Lintr 🔍
         run: lintr::lint_package()
