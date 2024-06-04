@@ -1,5 +1,5 @@
 ---
-name: Test 📦
+name: Test and QC 🧪
 
 on:
   pull_request:
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout project ⬇️
         uses: actions/checkout@v4
 
-      - name: Checkout Repo Templates      
+      - name: Checkout Repo Templates ⬇️  
         uses: actions/checkout@v4
         with:
           ref: main
@@ -42,10 +42,10 @@ jobs:
       - name: Install package dependencies 📄
         uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
 
-      - name: Test 📦
+      - name: Test and QC 🧪
         run: Rscript templates/scripts/test.R
 
-      - name: Archive validation results
+      - name: Archive validation results ⬆️
         uses: actions/upload-artifact@v4
         with:
           name: val_results
