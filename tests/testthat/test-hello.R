@@ -5,7 +5,7 @@ test_that("hello greets the entity", {
 })
 
 test_that(
-  vdoc[["add_spec"]](specs[["a_spec"]], "my test description"),
+  vdoc[["add_spec"]]("my test description", specs$a_spec),
   {
     expect_true(TRUE)
   }
