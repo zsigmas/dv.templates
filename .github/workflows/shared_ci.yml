@@ -21,7 +21,7 @@ jobs:
     uses: boehringer-ingelheim/dv.templates/.github/workflows/check.yml@main
 
   test:
-    name: Test 📦
+    name: Test and QC 🧪
     uses: boehringer-ingelheim/dv.templates/.github/workflows/test.yml@main
 
   lintr:
