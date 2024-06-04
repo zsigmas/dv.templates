@@ -32,7 +32,8 @@ jobs:
         uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
 
       - name: Test and QC 🧪
-        run: Rscript templates/scripts/test.R
+        run: templates/scripts/test.R
+        shell: Rscript {0}
 
       - name: Archive validation results ⬆️
         uses: actions/upload-artifact@v4
