@@ -55,21 +55,32 @@ message("#######################################")
 message("###### RENDERING VALIDATION  (S) ######")
 message("#######################################")
 
+validation_root <- "./inst/validation"
+validation_exists <- dir.exists(validation_root)
+validation_report_rmd <- file.path(validation_root, "val_report.Rmd")
+validation_skip <- file.path(validation_root, "skip_qc")
+validation_report_html <- "val_report.html"
+validation_results <- file.path(validation_root, "results")
+val_param_rds <- file.path(validation_results, "val_param.rds")
+
+
+if (!dir.exists(validation_root)) {
+  message("### Quality Control documentation is not present")
+  message("### Include quality control documentation or skip it by creating following file 'inst/validation/skip_qc'")
+  stop("QC_doc_not_present")
+}
+
+if (file.exists(validation_skip)) {
+  success[["valdoc"]] <- NA
+} else {
+
+stopifnot(file.exists(validation_report_rmd))
+stopifnot(dir.exists(validation_results))
+unlink(list.files(validation_results))
+
 success[["valdoc"]] <- local({
   # This is evaluated inside a local because, otherwise, all the variables created in the chunks of the rendered
   # document leak into the environment
-
-  validation_root <- "./inst/validation"
-  validation_report_rmd <- file.path(validation_root, "val_report.Rmd")
-  validation_report_html <- "val_report.html"
-  validation_results <- file.path(validation_root, "results")
-  val_param_rds <- file.path(validation_results, "val_param.rds")
-
-  stopifnot(dir.exists(validation_root))
-  stopifnot(file.exists(validation_report_rmd))
-
-  stopifnot(dir.exists(validation_results))
-  unlink(list.files(validation_results))
 
   saveRDS(
     list(
@@ -95,6 +106,8 @@ success[["valdoc"]] <- local({
   VALIDATION_PASSED
 })
 
+}
+
 
 message("#######################################")
 message("###### RENDERING VALIDATION  (F) ######")
@@ -112,14 +125,20 @@ github_summary_file <- Sys.getenv("GITHUB_STEP_SUMMARY")
 summary <- "# Test Summary"
 summary <- c(
   summary,
-  purrr::imap_chr(success, ~ paste(" - ", if (.x) "\U02705" else "\U274C", "\t", .y))
+  purrr::imap_chr(success, ~{
+    symbol <- "\U02753"
+    symbol <- if (isTRUE(.x)) "\U02705"
+    symbol <- if (isFALSE(.x)) "\U0274C"
+    symbol <- if (is.na(.x)) "\U02757"
+    paste(" - ", symbol, .y)
+  })
 )
 
 CON <- file(github_summary_file, "a")
 on.exit(close(CON))
 writeLines(summary, CON)
 
-stopifnot(all(success))
+stopifnot(isTRUE(all(success)))
 
 message("##############################")
 message("###### BUILD RESULT (F) ######")
