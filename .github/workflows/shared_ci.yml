@@ -2,6 +2,17 @@
 name: Checks 🧩
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches:
+      - main
+  push:
+    branches:
+      - main
   workflow_call:
 
 jobs:
@@ -10,7 +21,7 @@ jobs:
     uses: boehringer-ingelheim/dv.templates/.github/workflows/check.yml@main
 
   test:
-    name: Test 📦
+    name: Test and QC 🧪
     uses: boehringer-ingelheim/dv.templates/.github/workflows/test.yml@main
 
   lintr:

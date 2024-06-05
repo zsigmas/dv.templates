@@ -4,6 +4,10 @@
 
 Runs devtools::check() and devtools::test() on the R package inside the checked out repository.
 
+### [`test.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/test.yml)
+
+Runs tests on the installed package, generates the qc documentation and uploads it as an artifact for later consumption.
+
 ### [`gitleaks.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/gitleaks.yml)
 
 Runs [`gitleaks`](https://github.com/zricethezav/gitleaks) on the repo to discover any secrets that might have been hardcoded.

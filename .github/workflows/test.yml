@@ -1,23 +1,16 @@
 ---
-name: Test 📦
+name: Test and QC 🧪
 
-on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-    branches:
-      - main
-  push:
-    branches:
-      - main
+on:  
   workflow_call:
 
 concurrency:
   group: test-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
+env:
+  TEMPLATE_REF: main
+  TEMPLATE_REPO: boehringer-ingelheim/dv.templates
 
 jobs:
   test:
@@ -25,27 +18,29 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ vars.CI_IMAGE }}
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout project ⬇️
         uses: actions/checkout@v4
 
-      - name: Checkout Repo Templates      
+      - name: Checkout templates repo ⬇️  
         uses: actions/checkout@v4
         with:
-          ref: main
-          repository: boehringer-ingelheim/dv.templates
+          ref: ${{env.TEMPLATE_REF}}
+          repository: ${{env.TEMPLATE_REPO}}
+          sparse-checkout: |
+            scripts/
+            inst/validation
           path: templates
 
       - name: Install package dependencies 📄
         uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
 
-      - name: Test 📦
-        run: Rscript templates/scripts/test.R
+      - name: Test and QC 🧪
+        run: templates/scripts/test_qc_pkg.R
+        shell: Rscript {0}
 
-      - name: Archive validation results
+      - name: Archive validation results ⬆️
         uses: actions/upload-artifact@v4
         with:
           name: val_results
