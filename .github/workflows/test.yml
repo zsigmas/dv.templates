@@ -10,7 +10,7 @@ concurrency:
 
 env:
   TEMPLATE_REF: main
-  TEMPLATE_repo: boehringer-ingelheim/dv.templates
+  TEMPLATE_REPO: boehringer-ingelheim/dv.templates
 
 jobs:
   test:
