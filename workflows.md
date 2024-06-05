@@ -25,6 +25,10 @@ Generates a [`pkgdown`](https://pkgdown.r-lib.org/) website and uploads it to Gi
 Uses [`roxygen`](https://roxygen2.r-lib.org/) to generate `.Rd` files in the
 `man/` directory. It also checks if manuals are up-to-date with roxygen comments in the code.
 
+### [`release.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/release.yml)
+
+Uses adds additional checks before merging the PR to main.
+
 ### [`shared_ci.yml`](https://github.com/boehringer-ingelheim/dv.templates/blob/main/.github/workflows/shared_ci.yml)
 
 Builds a reusable workflow to be called from other repositories.
@@ -71,5 +75,4 @@ jobs:
   pkgdown:
     name: Pkgdown 📖
     uses: boehringer-ingelheim/dv.templates/.github/workflows/pkgdown.yml@main
-
 ```
