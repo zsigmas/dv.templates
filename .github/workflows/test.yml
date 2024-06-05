@@ -41,10 +41,21 @@ jobs:
           TEMPLATE_DIR="templates/inst/validation"
           REPO_DIR="inst/validation"
 
-          set +e  # Disable immediate exit in conflicting parts on error for diff command          
+          if test ! -d "${REPO_DIR}"; then
+            echo "### Quality Control documentation is not present"
+            echo "### Include quality control documentation or skip it by creating following file 'inst/validation/skip_qc'"
+            exit 1
+          fi
+
+          if test -f "${REPO_DIR}/skip_qc"; then
+            echo "skip_qc file found skipping qc documentation"
+            exit 0
+          fi
+          
           # Conserve specs.R file
           cp "${REPO_DIR}/specs.R" "${TEMPLATE_DIR}/specs.R"
 
+          set +e  # Disable immediate exit in conflicting parts on error for diff command
           DIFF_OUTPUT=$(diff -qr "${TEMPLATE_DIR}" "${REPO_DIR}")
           set -e  # Enable immediate exit on error after diff command
 
