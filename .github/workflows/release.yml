@@ -1,0 +1,53 @@
+---
+name: Release 📈
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_call:
+
+concurrency:
+  group: release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  create-release:
+    name: ${{ vars.CI_IMAGE }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project ⬇️
+        uses: actions/checkout@v4
+
+      - name: NEWS.md and DESCRIPTION Version check 🏁
+        run: |
+          DESC_VERSION=$(awk -F: '/Version:/{gsub(/[ ]+/,"") ; print $2}' DESCRIPTION | tr -d '\n' | xargs)
+          NEWS_VERSION=$(awk '/^#+ /{print $3,$4; exit}' NEWS.md | tr -d '\n' | xargs)
+          DESC_DEV_VERSION=$(echo $DESC_VERSION | awk -F '.' '{print $NF}')
+          echo "NEWS.md version: $NEWS_VERSION"
+          echo "DESCRIPTION version: $DESC_VERSION"
+
+          if [ $DESC_DEV_VERSION -ge 9000 ]; then
+            echo "✖️ DESCRIPTION file version is in development mode."
+            echo "Please fix this."
+            exit 1
+          fi
+
+          if [ "$DESC_VERSION" = "$NEWS_VERSION" ]; then 
+            echo "✔️ NEWS.md and DESCRIPTION have the same version"
+            exit 0
+          else
+            echo "✖️ NEWS.md and DESCRIPTION have different versions"
+            echo "Please fix this."
+            exit 1
+          fi
+        shell: bash
