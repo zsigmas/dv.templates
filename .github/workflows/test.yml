@@ -36,9 +36,8 @@ jobs:
       - name: Install package dependencies 📄
         uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
 
-      - name: Test and QC 🧪
-        run: templates/scripts/test_qc_pkg.R
-        shell: Rscript {0}
+      - name: Test and QC 🧪        
+        run: Rscript templates/scripts/test_qc_pkg.R
 
       - name: Archive validation results ⬆️
         uses: actions/upload-artifact@v4
