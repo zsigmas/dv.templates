@@ -10,6 +10,7 @@ concurrency:
 
 env:
   TEMPLATE_REF: main
+  TEMPLATE_repo: boehringer-ingelheim/dv.templates
 
 jobs:
   test:
@@ -26,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{env.TEMPLATE_REF}}
-          repository: boehringer-ingelheim/dv.templates
+          repository: ${{env.TEMPLATE_REPO}}
           sparse-checkout: |
             scripts/
             inst/validation
