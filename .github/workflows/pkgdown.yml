@@ -2,17 +2,6 @@
 name: Pkgdown 📖
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-    branches:
-      - main
-  push:
-    branches:
-      - main
   workflow_call:
 
 concurrency:
@@ -25,8 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ vars.CI_IMAGE }}
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout project ⬇️
