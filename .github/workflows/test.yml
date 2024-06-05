@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TEMPLATE_REF: main
-  TEMPLATE_REPO: boehringer-ingelheim/dv.templates
+  TEMPLATE_REF: test
+  TEMPLATE_REPO: zsigmas/dv.templates
 
 jobs:
   test:
@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ vars.CI_IMAGE }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout project ⬇️
@@ -34,34 +36,33 @@ jobs:
           path: templates
 
       - name: Overwrite quality control scripts with dv.templates ones 🧹
+        shell: bash
         run: |
-          # Paths to the directories
           TEMPLATE_DIR="templates/inst/validation"
           REPO_DIR="inst/validation"
-          
-          # Run the diff command and capture the output
-          DIFF_OUTPUT=$(diff -qr "$TEMPLATE_DIR" "$REPO_DIR")
 
-          echo "# Quality control files" | tee -a $GITHUB_STEP_SUMMARY
+          set +e  # Disable immediate exit in conflicting parts on error for diff command          
+          # Conserve specs.R file
+          cp "${REPO_DIR}/specs.R" "${TEMPLATE_DIR}/specs.R"
+
+          DIFF_OUTPUT=$(diff -qr "${TEMPLATE_DIR}" "${REPO_DIR}")
+          set -e  # Enable immediate exit on error after diff command
+
+          echo "# Quality control files" | tee -a "${GITHUB_STEP_SUMMARY}"
           
-          # Check if the diff command found any differences
-          if [ -n "$DIFF_OUTPUT" ]; then
-            echo "Warning: The contents of the directories are different!" | tee -a $GITHUB_STEP_SUMMARY
-            echo "Modified files:" | tee -a $GITHUB_STEP_SUMMARY
-            echo "$DIFF_OUTPUT" | tee -a $GITHUB_STEP_SUMMARY
+          if [ -n "${DIFF_OUTPUT}" ]; then
+            echo "Warning: The contents of the directories are different!" | tee -a "${GITHUB_STEP_SUMMARY}"
+            echo "Modified files:" | tee -a "${GITHUB_STEP_SUMMARY}"
+            echo "$DIFF_OUTPUT" | tee -a "${GITHUB_STEP_SUMMARY}"
           else
-            echo "The directories are identical." | tee -a $GITHUB_STEP_SUMMARY
+            echo "The directories are identical." | tee -a "${GITHUB_STEP_SUMMARY}"
           fi
 
-          # Always overwrite
-
-          rm -rf "$REPO_DIR"/*
-
-          # Move contents of REPO_DIR to TEMPLATE_DIR
-          mv "$TEMPLATE_DIR"/* "$REPO_DIR"
+          rm -rf "${REPO_DIR}"
+          mv "${TEMPLATE_DIR}" "${REPO_DIR}"
 
       - name: Install package dependencies 📄
-        uses: boehringer-ingelheim/dv.templates/.github/actions/dependencies@main     
+        uses: zsigmas/dv.templates/.github/actions/dependencies@test     
 
       - name: Test and QC 🧪        
         run: Rscript templates/scripts/test_qc_pkg.R

@@ -18,35 +18,35 @@ on:
 jobs:
   check:
     name: Check 📦
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/check.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/check.yml@test
 
   test:
     name: Test and QC 🧪
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/test.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/test.yml@test
 
   lintr:
     name: Lintr 🔍
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/lintr.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/lintr.yml@test
     with:
       lintr_error_on_lint: true
 
   gitleaks:
     name: Gitleaks 🌧️
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/gitleaks.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/gitleaks.yml@test
 
   roxygen:
     name: Roxygen 📄
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/roxygen.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/roxygen.yml@test
 
   pkgdown:
     name: Pkgdown 📖
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/pkgdown.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/pkgdown.yml@test
     needs: test
 
   styler:
     name: Styler 🌐
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/styler.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/styler.yml@test
 
   release:
     name: Release 📈
-    uses: boehringer-ingelheim/dv.templates/.github/workflows/release.yml@main
+    uses: zsigmas/dv.templates/.github/workflows/release.yml@test
